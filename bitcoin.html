@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitcoin Price</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchBitcoinPrice() {
+            // Make the API call to get the Bitcoin price
+            $.ajax({
+                url: "https://api.coinbase.com/v2/prices/spot?currency=USD",
+                method: "GET",
+                success: function(response) {
+                    // Extract the price from the response
+                    var price = response.data.amount;
+
+                    // Display the price on the webpage
+                    document.getElementById("bitcoin-price").textContent = "Bitcoin Price: $" + price;
+                },
+                error: function(error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // Fetch the Bitcoin price immediately
+            fetchBitcoinPrice();
+
+            // Refresh the Bitcoin price every 2 minutes (120,000 milliseconds)
+            setInterval(fetchBitcoinPrice, 120000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bitcoin Price</h1>
+        <p id="bitcoin-price">Loading...</p>
+    </div>
+</body>
+</html>
